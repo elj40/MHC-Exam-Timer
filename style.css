@@ -1,0 +1,115 @@
+body {
+    font-family: "Verdana", sans-serif;
+    margin: 0;
+    overflow:  hidden;
+}
+
+.head {
+    display:  flex;
+    background-color: #145DA0;
+    color:  white;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head img {
+    padding: 0 10px 0 10px;
+}
+
+.exam-table {
+    display: grid;
+    grid-template-columns: 1fr 4fr 2fr 2fr;
+    padding:  10px;
+}
+
+.exam-form {
+    position: absolute;
+    bottom: 0;
+    padding: 20px;
+    background-color: white;
+
+    box-shadow: 0 0 5px 5px lightgray;
+
+}
+
+.show-form {
+    position: absolute;
+    bottom:  0;
+
+    font-size: 1.1em;
+
+    box-shadow: 0 0 5px 5px lightgray;
+    padding: 20px;
+    cursor: pointer;
+}
+
+
+.add-btn {
+    display:  inline;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.add-btn:hover {
+    color:  white;
+    cursor:  pointer;
+    animation: turnMidnightBlue 0.1s ease-out 0s 1 forwards;
+}
+
+.down-arrow {
+    display:  inline-block;
+    margin-right: 10px;
+    min-height: 20px;
+    min-width: 20px;
+    text-align: center;
+    cursor:  pointer;
+    transform: rotate(90deg);
+}
+
+.x-symbol {
+    text-align: center;
+    margin:  auto;
+    min-width: 20px;
+}
+
+.x-symbol:hover {
+    /* animation: example [duration] [timing-function] [delay] [iteration-count] [direction];*/
+    animation: turnRed 0.2s ease-out 0s 1 forwards;
+    cursor: pointer;
+    color:  white;
+}
+
+.shown {
+    animation: slideUp 0.6s ease-out 0s 1 forwards;
+}
+
+.hidden {
+    animation: slideDown 0.6s ease-in 0s 1 forwards;
+}
+
+@keyframes turnRed {
+    from { background-color: transparent; }
+    to { background-color: red; }
+}
+
+@keyframes turnMidnightBlue {
+    from { background-color: transparent; }
+    to { background-color: #145DA0; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(110vh); }
+    to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(0); }
+    to { transform: translateY(110vh); }
+}
+
+/*
+#145DA0 Midnight Blue
+#0C2D48 Dark Blue
+#2E8BC0 Blue
+#B1D4E0 Baby Blue
+*/
