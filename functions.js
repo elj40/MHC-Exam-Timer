@@ -19,8 +19,8 @@ function addExam() {
 	cross.className = "x-symbol";
 	cross.setAttribute("onclick", "removeRow(this)");
 
-	name = document.createElement("p");
-	name.innerText = examNameInput.value;
+	examName = document.createElement("p");
+	examName.innerText = examNameInput.value;
 
 	timeLeft = document.createElement("p");
 	timeLeft.innerText = getTimeLeft(endTimes.length-1);
@@ -29,7 +29,7 @@ function addExam() {
 	extraTimeLeft.innerText = getExtraTimeLeft(extraEndTimes.length-1);
 
 	examTable.appendChild(cross);
-	examTable.appendChild(name);
+	examTable.appendChild(examName);
 	examTable.appendChild(timeLeft);
 	examTable.appendChild(extraTimeLeft);
 
@@ -99,14 +99,20 @@ window.onload = function() {
 function msToString(ms){
 	let t = new Date(ms);
 
-	h = t.getHours().toString();
-	m = t.getMinutes().toString();
-	s = t.getSeconds().toString();
+	sign = "";
+	if (ms < 0) sign = "-";
+	h = t.getUTCHours().toString();
+	m = t.getUTCMinutes().toString();
+	s = t.getUTCSeconds().toString();
 
 	if (h.length == 1) h = "0"+h;
 	if (m.length == 1) m = "0"+m;
 	if (s.length == 1) s = "0"+s;
 	return h+":"+m+":"+s;
+}
+
+function msToString2() {
+	
 }
 
 function stringToMs(s) {
@@ -135,7 +141,7 @@ function addTimes(s, l) {
 
 	today = new Date(currentTime);
 
-	startDate = new Date(today.getYear(), today.getMonth(), today.getDate(), sH, sM, sS);
+	startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), sH, sM, sS);
 	endDate = new Date(startDate.getTime()+lengthMs);
 	xEndDate = new Date(startDate.getTime()+lengthMs*1.25);
 
