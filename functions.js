@@ -48,6 +48,9 @@ function removeRow(e) {
 	}
 
 	console.log(index);
+	endTimes.splice(index,1);
+	extraEndTimes.splice(index,1);
+
 
 	for (let i = 3; i >= 0; i--) {
 		x = examTable.children[index+i];
@@ -66,7 +69,14 @@ function showExamForm() {
 	examForm.className = examForm.className.replace( " hidden"," shown")	
 }
 
-
+function updateTimes() {
+	examTable = document.querySelector("#exam-table");
+	for (let i = 0; i < endTimes.length; i++) {
+		index = i*4+4;
+		examTable.children[index+2].innerText=getTimeLeft(i);
+		examTable.children[index+3].innerText=getExtraTimeLeft(i);
+	}
+}
 
 
 
@@ -87,13 +97,20 @@ function showExamForm() {
 
 window.onload = function() {
 	mainTimeDisplay = document.querySelector("#current-time");
+
+	endTimes[0] = new Date().getTime() + 10000;
+	extraEndTimes[0] = new Date().getTime() + 10000;
 	setInterval(() => {
 		let time = new Date()
 		currentTime = time.getTime();
 
 		mainTimeString = msToString(currentTime);
 		mainTimeDisplay.innerText = mainTimeString;
+
+		updateTimes();
 	}, 1000);
+
+	
 }
 
 function msToString(ms){
@@ -101,9 +118,9 @@ function msToString(ms){
 
 	sign = "";
 	if (ms < 0) sign = "-";
-	h = t.getUTCHours().toString();
-	m = t.getUTCMinutes().toString();
-	s = t.getUTCSeconds().toString();
+	h = t.getHours().toString();
+	m = t.getMinutes().toString();
+	s = t.getSeconds().toString();
 
 	if (h.length == 1) h = "0"+h;
 	if (m.length == 1) m = "0"+m;
@@ -111,8 +128,31 @@ function msToString(ms){
 	return h+":"+m+":"+s;
 }
 
-function msToString2() {
+function msToString2(micro) {
+	let sign = "";
+	if (micro < 0) sign="-";
+
+	let ms = Math.abs(micro);
+	let h = Math.floor(ms/(60*60*1000));
+	ms -= h*60*60*1000;
+
 	
+	let m = Math.floor(ms/(60*1000));
+	ms -= m*60*1000;
+
+	let s = Math.floor(ms/1000);
+	ms -= s*1000;
+
+	h = h.toString();
+	m = m.toString();
+	s = s.toString();
+
+	h = sign+h;
+
+	if (h.length == 1) h = "0"+h;
+	if (m.length == 1) m = "0"+m;
+	if (s.length == 1) s = "0"+s;
+	return h+":"+m+":"+s;
 }
 
 function stringToMs(s) {
@@ -151,8 +191,8 @@ function addTimes(s, l) {
 
 
 function getTimeLeft(i) {
-	return msToString(endTimes[i]-currentTime);
+	return msToString2(endTimes[i]-currentTime);
 }
 function getExtraTimeLeft(i) {
-	return msToString(extraEndTimes[i]-currentTime);
+	return msToString2(extraEndTimes[i]-currentTime);
 }

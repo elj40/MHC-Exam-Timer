@@ -22,6 +22,10 @@ body {
     padding:  10px;
 }
 
+.exam-table p {
+    text-transform: uppercase;
+}
+
 .exam-form {
     position: absolute;
     bottom: 0;
@@ -39,7 +43,7 @@ body {
     font-size: 1.1em;
 
     box-shadow: 0 0 5px 5px lightgray;
-    padding: 20px;
+    padding: 15px;
     cursor: pointer;
 }
 
