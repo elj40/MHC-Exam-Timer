@@ -1,6 +1,7 @@
 var currentTime = 0;
 var endTimes = [];
 var extraEndTimes = [];
+var lengthTimes = [];
 
 var mainTimeDisplay;
 
@@ -47,9 +48,12 @@ function removeRow(e) {
 		index++;
 	}
 
-	console.log(index);
-	endTimes.splice(index,1);
-	extraEndTimes.splice(index,1);
+	let im = index%4;
+
+	console.log(index, im);
+	endTimes.splice(im,1);
+	extraEndTimes.splice(im,1);
+	lengthTimes.splice(im,1);
 
 
 	for (let i = 3; i >= 0; i--) {
@@ -78,6 +82,49 @@ function updateTimes() {
 	}
 }
 
+function updateColours() {
+	
+	for (let i=0; i<endTimes.length; i++) {
+		index = i*4+4;
+
+		if (endTimes[i]-currentTime < 0) changeRowColours(i, "#0C2D48", "#ffffff");
+		else if (endTimes[i]-currentTime < 10*1000) changeRowColours(i, "#ffff00", "#000000");
+		else if (endTimes[i]-lengthTimes[i]-currentTime < 0) changeRowColours(i, "#ffffff", "#000000");
+		else if (endTimes[i]-lengthTimes[i]-currentTime > 0) changeRowColours(i, "#aaaaaa", "#000000");
+	
+		if (extraEndTimes[i]-currentTime < 0) changeExtraColours(i, "#0C2D48", "#ffffff");
+		else if (extraEndTimes[i]-currentTime < 10*1000) changeExtraColours(i, "#ffff00", "#000000");
+		else if (extraEndTimes[i]-lengthTimes[i]*1.25-currentTime < 0) changeExtraColours(i, "#ffffff", "#000000");
+		else if (extraEndTimes[i]-lengthTimes[i]*1.25-currentTime > 0) changeExtraColours(i, "#aaaaaa", "#000000");
+	}
+}
+
+function changeRowColours(index, bgColor, fColor) {
+	examTable = document.querySelector("#exam-table");
+	i = index*4+4;
+
+	examName = examTable.children[i+1];
+	timeLeft = examTable.children[i+2];
+
+	examName.style.backgroundColor = bgColor;
+	timeLeft.style.backgroundColor = bgColor;
+
+	examName.style.color = fColor;
+	timeLeft.style.color = fColor;
+
+}
+
+function changeExtraColours(index, bgColor, fColor) {
+	examTable = document.querySelector("#exam-table");
+	i = index*4+4;
+
+	extraTimeLeft = examTable.children[i+3];
+
+	extraTimeLeft.style.backgroundColor = bgColor;
+
+	extraTimeLeft.style.color = fColor;
+}
+
 
 
 
@@ -98,8 +145,9 @@ function updateTimes() {
 window.onload = function() {
 	mainTimeDisplay = document.querySelector("#current-time");
 
-	endTimes[0] = new Date().getTime() + 10000;
-	extraEndTimes[0] = new Date().getTime() + 10000;
+	endTimes[0] = new Date().getTime() + 20000;
+	extraEndTimes[0] = new Date().getTime() + 20000*1.25;
+	lengthTimes[0] = 20000;
 	setInterval(() => {
 		let time = new Date()
 		currentTime = time.getTime();
@@ -108,6 +156,7 @@ window.onload = function() {
 		mainTimeDisplay.innerText = mainTimeString;
 
 		updateTimes();
+		updateColours();
 	}, 1000);
 
 	
@@ -128,10 +177,7 @@ function msToString(ms){
 	return h+":"+m+":"+s;
 }
 
-function msToString2(micro) {
-	let sign = "";
-	if (micro < 0) sign="-";
-
+function msToString2(sign, micro) {
 	let ms = Math.abs(micro);
 	let h = Math.floor(ms/(60*60*1000));
 	ms -= h*60*60*1000;
@@ -147,7 +193,7 @@ function msToString2(micro) {
 	m = m.toString();
 	s = s.toString();
 
-	h = sign+h;
+	if (sign.length>0) h = sign+h;
 
 	if (h.length == 1) h = "0"+h;
 	if (m.length == 1) m = "0"+m;
@@ -187,12 +233,19 @@ function addTimes(s, l) {
 
 	endTimes.push(endDate.getTime());
 	extraEndTimes.push(xEndDate.getTime());
+	lengthTimes.push(lengthMs);
 }
 
 
 function getTimeLeft(i) {
-	return msToString2(endTimes[i]-currentTime);
+	if (endTimes[i] <= currentTime) return msToString2("+", endTimes[i]-currentTime);
+	if (endTimes[i]-lengthTimes[i] > currentTime) return msToString2("-", endTimes[i]-lengthTimes[i]-currentTime);
+
+	return msToString2("", endTimes[i]-currentTime);
 }
 function getExtraTimeLeft(i) {
-	return msToString2(extraEndTimes[i]-currentTime);
+	if (extraEndTimes[i] <= currentTime) return msToString2("+", extraEndTimes[i]-currentTime);
+	if (extraEndTimes[i]-lengthTimes[i]*1.25 > currentTime) return msToString2("-", extraEndTimes[i]-lengthTimes[i]*1.25-currentTime);
+
+	return msToString2("", extraEndTimes[i]-currentTime);
 }
