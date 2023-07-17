@@ -175,6 +175,8 @@ function msToString(ms){
 }
 
 function msToString2(sign, micro) {
+	if (sign == "+") return "00:00:00"
+	
 	let ms = Math.abs(micro);
 	let h = Math.floor(ms/(60*60*1000));
 	ms -= h*60*60*1000;
@@ -195,6 +197,7 @@ function msToString2(sign, micro) {
 	if (h.length == 1) h = "0"+h;
 	if (m.length == 1) m = "0"+m;
 	if (s.length == 1) s = "0"+s;
+	
 	return h+":"+m+":"+s;
 }
 
