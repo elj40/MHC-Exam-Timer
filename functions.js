@@ -88,12 +88,12 @@ function updateColours() {
 		index = i*4+4;
 
 		if (endTimes[i]-currentTime < 0) changeRowColours(i, "#0C2D48", "#ffffff");
-		else if (endTimes[i]-currentTime < 10*1000) changeRowColours(i, "#ffff00", "#000000");
+		else if (endTimes[i]-currentTime < 10*60*1000) changeRowColours(i, "#ffff00", "#000000");
 		else if (endTimes[i]-lengthTimes[i]-currentTime < 0) changeRowColours(i, "#ffffff", "#000000");
 		else if (endTimes[i]-lengthTimes[i]-currentTime > 0) changeRowColours(i, "#aaaaaa", "#000000");
 	
 		if (extraEndTimes[i]-currentTime < 0) changeExtraColours(i, "#0C2D48", "#ffffff");
-		else if (extraEndTimes[i]-currentTime < 10*1000) changeExtraColours(i, "#ffff00", "#000000");
+		else if (extraEndTimes[i]-currentTime < 10*60*1000) changeExtraColours(i, "#ffff00", "#000000");
 		else if (extraEndTimes[i]-lengthTimes[i]*1.25-currentTime < 0) changeExtraColours(i, "#ffffff", "#000000");
 		else if (extraEndTimes[i]-lengthTimes[i]*1.25-currentTime > 0) changeExtraColours(i, "#aaaaaa", "#000000");
 	}
