@@ -145,9 +145,6 @@ function changeExtraColours(index, bgColor, fColor) {
 window.onload = function() {
 	mainTimeDisplay = document.querySelector("#current-time");
 
-	endTimes[0] = new Date().getTime() + 20000;
-	extraEndTimes[0] = new Date().getTime() + 20000*1.25;
-	lengthTimes[0] = 20000;
 	setInterval(() => {
 		let time = new Date()
 		currentTime = time.getTime();
