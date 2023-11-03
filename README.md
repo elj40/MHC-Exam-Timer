@@ -40,3 +40,4 @@ This project was created to simplify exam time management for educational instit
 If you encounter any issues or have questions, please feel free to open an issue.
 
 Happy time management during exams!
+Made by Eli Joubert
